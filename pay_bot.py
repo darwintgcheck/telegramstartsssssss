@@ -3,22 +3,22 @@ from telegram import Update, LabeledPrice
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, PreCheckoutQueryHandler, CallbackContext
 
 # Вставьте сюда ваш токен
-TOKEN = 'TOKEN'
+TOKEN = '7052661567:AAGFtflQEGhTCIDPyjgCt9BrjyCszbnQo24'
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 async def start(update: Update, context: CallbackContext):
-    await update.message.reply_text("Привет! Выберите команду /buy для покупки.")
+    await update.message.reply_text("Salam! Telegram Star almaq üçün /buy yazın .")
 
 async def buy(update: Update, context: CallbackContext):
     chat_id = update.message.chat_id
     title = "Название товара"
-    description = "Описание товара"
+    description = "məhsulun adı"
     payload = "Custom-Payload"
     currency = "XTR"  # Используем Telegram Stars (XTR)
     price = 5.00  # Цена в XTR
-    prices = [LabeledPrice("Название товара", int(price * 100))]
+    prices = [LabeledPrice("məhsulun adı", int(price * 100))]
 
     await context.bot.send_invoice(
         chat_id=chat_id,
@@ -34,14 +34,14 @@ async def buy(update: Update, context: CallbackContext):
 async def precheckout_callback(update: Update, context: CallbackContext):
     query = update.pre_checkout_query
     if query.invoice_payload != 'Custom-Payload':
-        await query.answer(ok=False, error_message="Что-то пошло не так...")
+        await query.answer(ok=False, error_message="Xəta...")
     else:
         await query.answer(ok=True)
 
 async def successful_payment_callback(update: Update, context: CallbackContext):
     payment = update.message.successful_payment
     telegram_payment_charge_id = payment.telegram_payment_charge_id
-    await update.message.reply_text(f"Платеж успешно выполнен! Ваш ID: {telegram_payment_charge_id}")
+    await update.message.reply_text(f"ödəniş uğurla həyata keçdi! sizin ID: {telegram_payment_charge_id}")
 
 def main():
     application = Application.builder().token(TOKEN).build()
